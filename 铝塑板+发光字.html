@@ -6,18 +6,19 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:"Microsoft YaHei",sans-serif}
 body{background:#f7f8fa;padding:0 0 60px}
-.head{background:linear-gradient(90deg,#007CFE,#42A5F5);color:#fff;text-align:center;padding:40px 20px;margin-bottom:30px}
+.head{background:linear-gradient(90deg,#007CFE,#42A5F5);color:#fff;text-align:center;padding:40px 20px;margin-bottom:30px;border-radius:0 0 16px 16px;box-shadow:0 4px 16px rgba(0,0,0,.12)}
 .box{max-width:800px;margin:0 auto 30px;background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
 .label{font-size:15px;color:#333;margin-bottom:10px}
 .input{width:100%;padding:14px 16px;border:1px solid #e2e8f0;border-radius:10px;font-size:15px;margin-bottom:20px;outline:0}
 .btn{width:100%;padding:15px;background:linear-gradient(90deg,#007CFE,#42A5F5);color:#fff;border:none;border-radius:10px;font-size:16px;cursor:pointer}
-.btn:disabled{background:#a8d1ff}
+.btn:disabled{background:#a8d1ff;cursor:not-allowed}
 .result{max-width:800px;margin:0 auto;padding:0 20px}
-.item{background:#fff;border-radius:12px;padding:18px;margin-bottom:12px;border-left:4px solid #007CFE;box-shadow:0 2px 10px rgba(0,0,0,.05);display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.item-text{flex:1;font-size:14px;line-height:1.6;color:#333}
+.item{background:#fff;border-radius:12px;padding:18px;margin-bottom:12px;border-left:4px solid #007CFE;box-shadow:0 2px 10px rgba(0,0,0,.05);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.item-text{flex:1;font-size:14px;line-height:1.6;color:#333;word-break:break-word}
 .copy{padding:6px 10px;background:#007CFE;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer}
 .copy.done{background:#ccc;color:#666;cursor:default}
 .copy-all{margin:20px auto;display:block;padding:12px 24px;background:#007CFE;color:#fff;border:none;border-radius:10px;font-size:15px;cursor:pointer}
+.copy-all:hover{background:#005ecc}
 </style>
 </head>
 <body>
@@ -38,12 +39,10 @@ body{background:#f7f8fa;padding:0 0 60px}
 <script>
 let texts = [];
 
+// 生成单条提示词
 function make(industry){
-  // 新增：白天/黑夜场景维度
   const scenes = [
-    // 白天场景（保留原有）
     "白天自然光，门头正立面，完整展示，正面平视视角，无透视畸变，无遮挡，日间灯箱整体柔和发光，上层发光字高亮立体",
-    // 黑夜场景（新增核心）
     "黑夜暗环境，门头正立面，完整展示，正面平视视角，无透视畸变，无遮挡，夜间灯箱通体高亮发光，上层发光字霓虹效果，光线均匀无暗区，与周边环境形成鲜明对比"
   ];
   
@@ -57,61 +56,56 @@ function make(industry){
     "核心产品+简洁吸睛标语","爆款产品+清晰醒目标语"
   ];
   
-  // 随机选场景+随机选标语
-  const randomScene = scenes[Math.floor(Math.random()*scenes.length)];
-  const randomType = types[Math.floor(Math.random()*types.length)];
+  const scene = scenes[Math.floor(Math.random()*scenes.length)];
+  const type = types[Math.floor(Math.random()*types.length)];
   
-  // 拼接最终提示词（整合黑夜/白天场景）
-  return `${randomScene}，灯箱叠加发光字门头，底层整体软膜灯箱，上层叠加立体发光字，双层结构，层次强、醒目高级，${industry}店铺门头，软膜灯箱、无边框灯箱、UV软膜、亚克力背光字、不锈钢精工字、迷你发光字、金属包边，品牌店名+${randomType}，现代清晰字体，双层发光效果，8K高清，商业写实效果图，细节丰富，色彩自然，可直接施工参考，禁止墙面出现灯箱`;
+  return `${scene}，灯箱叠加发光字门头，底层整体软膜灯箱，上层叠加立体发光字，双层结构，层次强、醒目高级，${industry}店铺门头，软膜灯箱、无边框灯箱、UV软膜、亚克力背光字、不锈钢精工字、迷你发光字、金属包边，品牌店名+${type}，现代清晰字体，双层发光效果，8K高清，商业写实效果图，细节丰富，色彩自然，可直接施工参考，禁止墙面出现灯箱`;
 }
 
-// 复制单条 —— 稳定版
-function copyOne(text, btn) {
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = "已复制";
+// 单条复制
+function copyOne(text, btn){
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent="已复制";
     btn.classList.add("done");
-    setTimeout(() => {
-      btn.textContent = "复制";
+    setTimeout(()=>{
+      btn.textContent="复制";
       btn.classList.remove("done");
-    }, 2000);
-  }).catch(err => {
+    },2000);
+  }).catch(err=>{
     alert("复制失败：" + err);
   });
 }
 
 // 复制全部
-function copyAll() {
-  navigator.clipboard.writeText(texts.join("\n\n")).then(() => {
-    alert("✅ 已复制全部20组");
-  });
+function copyAll(){
+  navigator.clipboard.writeText(texts.join("\n\n")).then(()=>alert("✅ 已复制全部20组"));
 }
 
 // 主函数
-function run() {
+function run(){
   const val = document.getElementById("industry").value.trim();
-  if (!val) { alert("请输入行业类型"); return; }
+  if(!val){alert("请输入行业类型"); return;}
 
   const btn = document.getElementById("go");
   btn.disabled = true;
   btn.innerText = "生成中...";
 
-  setTimeout(() => {
+  setTimeout(()=>{
     texts = [];
     let html = "";
-    for (let i = 0; i < 20; i++) {
+    for(let i=0;i<20;i++){
       const text = make(val);
       texts.push(text);
-      // 关键：用 btoa/atob 编码，复制按钮100%有效
       html += `<div class='item'>
         <div class='item-text'>${i+1}. ${text}</div>
-        <button class='copy' onclick="copyOne(atob('${btoa(text)}'), this)">复制</button>
+        <button class='copy' onclick="copyOne(\`${text}\`, this)">复制</button>
       </div>`;
     }
     html += `<button class='copy-all' onclick='copyAll()'>📋 一键复制全部20组</button>`;
     document.getElementById("result").innerHTML = html;
     btn.disabled = false;
     btn.innerText = "🚀 生成20组提示词";
-  }, 600);
+  },500);
 }
 
 document.getElementById("go").onclick = run;
