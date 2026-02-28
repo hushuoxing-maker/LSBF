@@ -2,14 +2,13 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>古月·升级版商业提示词生成器</title>
+<title>古月AI · 铝塑板发光字门头商业视觉提示引擎</title>
 <style>
 :root{
   --bg-color:#f7f8fa;
   --head-bg:linear-gradient(90deg,#007CFE,#42A5F5);
   --text-color:#333;
   --btn-bg:linear-gradient(90deg,#007CFE,#42A5F5);
-  --btn-disabled:#a8d1ff;
   --item-border:#007CFE;
   --copy-btn:#007CFE;
 }
@@ -18,31 +17,45 @@ body{
   color:var(--text-color);
   font-family:"Microsoft YaHei",sans-serif;
   padding:0 0 60px;
+  margin:0;
   transition:all .3s;
 }
 .head{
   background:var(--head-bg);
   color:#fff;
   text-align:center;
-  padding:40px 20px;
-  margin-bottom:20px;
-  border-radius:0 0 16px 16px;
-  box-shadow:0 4px 16px rgba(0,0,0,.12);
-  position:relative;
+  padding:45px 20px 35px;
+  margin-bottom:25px;
+  border-radius:0 0 20px 20px;
+  box-shadow:0 6px 20px rgba(0,0,0,.12);
 }
-.head img.logo{position:absolute;top:20px;left:20px;width:80px;height:auto;border-radius:8px}
-.head img.cover{width:100%;border-radius:16px 16px 0 0;margin-bottom:20px}
-
+.head h1{
+  margin:0;
+  font-size:26px;
+  letter-spacing:1px;
+}
+.head p{
+  margin-top:12px;
+  font-size:14px;
+  opacity:.95;
+}
+.version{
+  margin-top:10px;
+  font-size:12px;
+  opacity:.8;
+}
 .box{
-  max-width:800px;
+  max-width:850px;
   margin:0 auto 30px;
   background:#fff;
   border-radius:16px;
   padding:30px;
-  box-shadow:0 4px 20px rgba(0,0,0,.06);
-  transition:all .3s;
+  box-shadow:0 4px 25px rgba(0,0,0,.06);
 }
-.label{font-size:15px;color:var(--text-color);margin-bottom:10px}
+.label{
+  font-size:15px;
+  margin-bottom:10px
+}
 .input, select{
   width:100%;
   padding:14px 16px;
@@ -51,7 +64,6 @@ body{
   font-size:15px;
   margin-bottom:20px;
   outline:0;
-  transition:all .3s;
 }
 .btn{
   width:100%;
@@ -62,55 +74,74 @@ body{
   border-radius:10px;
   font-size:16px;
   cursor:pointer;
-  transition:all .3s;
+  font-weight:600;
 }
-.btn:disabled{background:var(--btn-disabled);cursor:not-allowed}
-
 .result{
-  max-width:800px;
+  max-width:850px;
   margin:0 auto;
   padding:0 20px;
-  transition:all .3s;
 }
 .item{
   background:#fff;
-  border-radius:12px;
-  padding:18px;
-  margin-bottom:12px;
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:14px;
   border-left:4px solid var(--item-border);
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
+  box-shadow:0 3px 14px rgba(0,0,0,.05);
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
   gap:12px;
   flex-wrap:wrap;
-  transition:all .3s;
 }
-.item-text{flex:1;font-size:14px;line-height:1.6;color:var(--text-color);word-break:break-word;transition:all .3s}
-.copy{padding:6px 10px;background:var(--copy-btn);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;transition:all .3s}
-.copy.done{background:#ccc;color:#666;cursor:default}
-.copy-all, .export-all{margin:20px auto;display:block;padding:12px 24px;background:var(--copy-btn);color:#fff;border:none;border-radius:10px;font-size:15px;cursor:pointer;transition:all .3s}
-.copy-all:hover,.export-all:hover{opacity:.85}
-
-/* 黑夜模式变量 */
+.item-text{
+  flex:1;
+  font-size:14px;
+  line-height:1.7;
+  word-break:break-word
+}
+.copy{
+  padding:6px 12px;
+  background:var(--copy-btn);
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  font-size:12px;
+  cursor:pointer
+}
+.copy-all,.export-all{
+  margin:20px auto;
+  display:block;
+  padding:12px 28px;
+  background:var(--copy-btn);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-size:15px;
+  cursor:pointer
+}
+.footer{
+  text-align:center;
+  margin-top:60px;
+  font-size:12px;
+  opacity:.5;
+}
 body.dark{
   --bg-color:#111;
   --head-bg:linear-gradient(90deg,#222,#444);
   --text-color:#f0f0f0;
   --btn-bg:linear-gradient(90deg,#5555ff,#66aaff);
-  --btn-disabled:#555;
   --item-border:#66aaff;
   --copy-btn:#66aaff;
 }
 </style>
 </head>
+
 <body>
 
 <div class="head">
-  <img class="logo" src="logo.png" alt="Logo">
-  <img class="cover" src="cover.jpg" alt="封面图">
-  <h1>古月·升级版商业提示词生成器</h1>
-  <p>白天/黑夜效果｜平视无遮挡｜双层结构｜禁止墙面灯箱</p>
+  <h1>古月AI智能体 · 铝塑板发光字门头商业视觉提示引擎</h1>
+  <p>铝塑板基层专用系统｜发光字叠加结构｜平视无遮挡｜施工级效果图提示方案</p>
+  <div class="version">Version 1.0 · 商业专用版</div>
 </div>
 
 <div class="box">
@@ -123,95 +154,100 @@ body.dark{
     <option value="night">黑夜模式效果图</option>
   </select>
 
-  <button class="btn" id="go">🚀 生成20组提示词</button>
+  <button class="btn" id="go">🚀 生成20组商业提示词</button>
 </div>
 
 <div class="result" id="result"></div>
 
+<div class="footer">
+© 古月AI智能体 · 铝塑板门头视觉系统 · 专注铝塑板基层结构
+</div>
+
 <script>
 let texts=[];
 
-// 随机模板生成
 function make(industry, mode){
+
   const scenes={
-    day:"白天自然光，门头正立面，完整展示，正面平视视角，无透视畸变，无遮挡，日间灯箱整体柔和发光，上层发光字高亮立体",
-    night:"黑夜暗环境，门头正立面，完整展示，正面平视视角，无透视畸变，无遮挡，夜间灯箱通体高亮发光，上层发光字霓虹效果，光线均匀无暗区，与周边环境形成鲜明对比"
+    day:"白天自然光环境，门头正立面完整展示，正面平视视角，无透视畸变，无任何遮挡，铝塑板基层表面平整细腻无拼接痕迹",
+    night:"黑夜环境，门头正立面完整展示，正面平视视角，无透视畸变，无任何遮挡，铝塑板基层质感清晰沉稳，上层发光字高亮发光"
   };
+
   const types=[
-    "主营品类+简洁醒目标语","特色品类+清晰易记标语","招牌品类+简洁吸睛标语",
-    "核心品类+清晰醒目标语","爆款品类+简洁直观标语","主营项目+清晰吸睛标语",
-    "特色项目+简洁明了标语","招牌项目+清晰直观标语","核心项目+简洁吸睛标语",
-    "爆款项目+清晰醒目标语","主营服务+简洁吸睛标语","特色服务+清晰醒目标语",
-    "招牌服务+简洁直观标语","核心服务+简洁吸睛标语","爆款服务+清晰醒目标语",
-    "主营产品+清晰吸睛标语","特色产品+简洁醒目标语","招牌产品+清晰直观标语",
-    "核心产品+简洁吸睛标语","爆款产品+清晰醒目标语"
+    "主营品类+简洁醒目标语",
+    "核心品类+清晰直观标语",
+    "爆款品类+简洁吸睛标语",
+    "特色项目+清晰醒目标语",
+    "招牌产品+简洁吸睛标语",
+    "主营服务+清晰易记标语"
   ];
+
   const scene=scenes[mode]||scenes.day;
   const type=types[Math.floor(Math.random()*types.length)];
+
   const templates=[
-    `${scene}，灯箱叠加发光字门头，底层整体软膜灯箱，上层立体发光字，双层结构，层次强、醒目高级，${industry}店铺门头，品牌店名+${type}，现代清晰字体，双层发光效果，8K高清，商业写实效果图，细节丰富，色彩自然，可直接施工参考，禁止墙面出现灯箱`,
-    `${scene}，${industry}门头设计，软膜灯箱+发光字叠加，${type}，现代清晰字体，商业写实效果图，可直接施工参考`,
-    `${scene}，${industry}品牌门头，底层软膜灯箱，上层发光字立体叠加，${type}，8K高清渲染，商业写实效果图，细节丰富，色彩自然`
+
+`${scene}，${industry}店铺门头设计，整体基层采用铝塑板包覆结构，板面干净统一，上层立体发光字叠加安装，品牌名称+${type}，现代简洁字体设计，层次分明，商业写实效果图，8K高清，真实施工可落地`,
+
+`${scene}，${industry}品牌门头方案，基层整体为铝塑板饰面结构，颜色统一无杂质，表面平整，上层立体发光字固定安装，品牌名+${type}，现代商业风格，真实场景渲染，高清细节呈现`,
+
+`${scene}，${industry}门头视觉设计，整体结构采用铝塑板基层系统，视觉干净统一，上层发光字立体叠加安装，品牌名称+${type}，现代高级感设计语言，商业实景效果图，清晰可施工`
   ];
+
   return templates[Math.floor(Math.random()*templates.length)];
 }
 
-// 单条复制
-function copyOne(text, btn){
-  navigator.clipboard.writeText(text).then(()=>{
-    btn.textContent="已复制";
-    btn.classList.add("done");
-    setTimeout(()=>{
-      btn.textContent="复制";
-      btn.classList.remove("done");
-    },2000);
-  }).catch(err=>{alert("复制失败："+err);});
+function copyOne(text,btn){
+  navigator.clipboard.writeText(text);
+  btn.textContent="已复制";
+  setTimeout(()=>btn.textContent="复制",2000);
 }
 
-// 复制全部
 function copyAll(){
-  navigator.clipboard.writeText(texts.join("\n\n")).then(()=>alert("✅ 已复制全部20组"));
+  navigator.clipboard.writeText(texts.join("\n\n"));
+  alert("✅ 已复制全部20组商业提示词");
 }
 
-// 导出 CSV
 function exportCSV(){
-  if(!texts.length){alert("请先生成提示词"); return;}
+  if(!texts.length){alert("请先生成提示词");return;}
   const csv=texts.map((t,i)=>`${i+1},"${t}"`).join("\n");
   const blob=new Blob([csv],{type:"text/csv"});
   const url=URL.createObjectURL(blob);
   const a=document.createElement("a");
-  a.href=url; a.download="提示词.csv"; a.click();
+  a.href=url;
+  a.download="铝塑板门头商业提示词.csv";
+  a.click();
   URL.revokeObjectURL(url);
 }
 
 function run(){
   const val=document.getElementById("industry").value.trim();
-  if(!val){alert("请输入行业类型"); return;}
+  if(!val){alert("请输入行业类型");return;}
+
   const mode=document.getElementById("sceneMode").value;
   if(mode==="night") document.body.classList.add("dark");
   else document.body.classList.remove("dark");
 
-  const btn=document.getElementById("go");
-  btn.disabled=true; btn.innerText="生成中...";
-  setTimeout(()=>{
-    texts=[];
-    let html="";
-    for(let i=0;i<20;i++){
-      const text=make(val,mode);
-      texts.push(text);
-      html+=`<div class='item'>
-        <div class='item-text'>${i+1}. ${text}</div>
-        <button class='copy' onclick="copyOne(\`${text}\`, this)">复制</button>
-      </div>`;
-    }
-    html+=`<button class='copy-all' onclick='copyAll()'>📋 一键复制全部20组</button>
-           <button class='export-all' onclick='exportCSV()'>💾 导出CSV</button>`;
-    document.getElementById("result").innerHTML=html;
-    btn.disabled=false; btn.innerText="🚀 生成20组提示词";
-  },500);
+  texts=[];
+  let html="";
+
+  for(let i=0;i<20;i++){
+    const text=make(val,mode);
+    texts.push(text);
+    html+=`<div class='item'>
+      <div class='item-text'>${i+1}. ${text}</div>
+      <button class='copy' onclick="copyOne(\`${text}\`, this)">复制</button>
+    </div>`;
+  }
+
+  html+=`<button class='copy-all' onclick='copyAll()'>📋 一键复制全部20组</button>
+         <button class='export-all' onclick='exportCSV()'>💾 导出CSV</button>`;
+
+  document.getElementById("result").innerHTML=html;
 }
 
 document.getElementById("go").onclick=run;
 </script>
+
 </body>
 </html>
