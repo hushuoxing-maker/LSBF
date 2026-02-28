@@ -8,6 +8,7 @@ body{background:#f7f8fa;padding:0 0 60px}
 .box{max-width:800px;margin:0 auto 30px;background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
 .label{font-size:15px;color:#333;margin-bottom:10px}
 .input{width:100%;padding:14px 16px;border:1px solid #e2e8f0;border-radius:10px;font-size:15px;margin-bottom:20px;outline:0}
+.mode-select{width:100%;padding:12px;border-radius:10px;border:1px solid #e2e8f0;font-size:15px;margin-bottom:20px;outline:0}
 .btn{width:100%;padding:15px;background:linear-gradient(90deg,#4E83FD,#60A5FA);color:#fff;border:none;border-radius:10px;font-size:16px;cursor:pointer}
 .btn:disabled{background:#a8c1ff}
 .result{max-width:800px;margin:0 auto;padding:0 20px}
@@ -20,59 +21,41 @@ body{background:#f7f8fa;padding:0 0 60px}
 
 <div class="head">
   <h1>古月·铝塑板+发光字门头智能生成器</h1>
-  <p>智能配色｜按行业匹配｜白天正立面｜100%可施工</p>
+  <p>智能配色｜按行业匹配｜白天/夜晚模式｜100%可施工</p>
 </div>
 
 <div class="box">
   <div class="label">输入行业类型（如：餐饮、便利店、服装、教育、美容、网咖、五金）</div>
   <input class="input" id="industry" placeholder="例如：餐饮美食">
+  <select class="mode-select" id="mode">
+    <option value="day">☀️ 白天模式</option>
+    <option value="night">🌙 夜晚模式</option>
+  </select>
   <button class="btn" id="go" onclick="run()">🚀 生成20组提示词</button>
 </div>
 
 <div class="result" id="result"></div>
 
 <script>
-const texts = [];
+const texts=[];
+
+function random(arr){return arr[Math.floor(Math.random()*arr.length)]}
 
 function getConfig(ind){
-  const i = ind.trim();
-  if(/餐饮|小吃|快餐|美食|火锅|烧烤/.test(i)) return {
-    color:"红色、橘色、黄色铝塑板",shape:"简洁平面造型，醒目热闹",
-    word:"正面高亮发光字，颜色鲜艳醒目",font:"简洁醒目字体"
-  }
-  if(/便利|超市|百货/.test(i)) return {
-    color:"白色、浅灰、蓝色铝塑板",shape:"干净整洁，清爽大气",
-    word:"亚克力发光字，清晰明亮",font:"简洁大气字体"
-  }
-  if(/服装|美容|美甲|美妆/.test(i)) return {
-    color:"白色、米色、浅粉、浅灰铝塑板",shape:"简约高级，温柔耐看",
-    word:"背光字、迷你字、柔和发光",font:"简约高级字体"
-  }
-  if(/教育|培训|托管|学校/.test(i)) return {
-    color:"浅蓝、浅绿、米白、灰色铝塑板",shape:"稳重专业、亲和力强",
-    word:"不锈钢背光字、柔和发光",font:"稳重清晰字体"
-  }
-  if(/网咖|娱乐|台球|酒吧/.test(i)) return {
-    color:"黑色、深灰、深蓝铝塑板",shape:"时尚潮流、夜间醒目",
-    word:"炫彩发光字、亚克力发光字",font:"潮流时尚字体"
-  }
-  if(/五金|建材|服务|维修/.test(i)) return {
-    color:"灰色、银色、白色铝塑板",shape:"实用耐用、简洁大方",
-    word:"高亮亚克力发光字",font:"简洁实用字体"
-  }
-  if(/美发|养生馆|SPA/.test(i)) return {
-    color:"咖啡色、深灰、香槟色铝塑板",shape:"高级有质感",
-    word:"不锈钢精工背光字",font:"精致高级字体"
-  }
-  return {
-    color:"白色、浅灰铝塑板",shape:"简洁平整、干净大气",
-    word:"亚克力高亮发光字",font:"简洁清晰字体"
-  }
+  const i = ind.toLowerCase();
+  if(/餐饮|小吃|快餐|美食|火锅|烧烤/.test(i)) return {color:["红色","橘色","黄色"],shape:"简洁平面造型，醒目热闹",word:["高亮发光字","颜色鲜艳"],font:["简洁醒目字体"]};
+  if(/便利|超市|百货/.test(i)) return {color:["白色","浅灰","蓝色"],shape:"干净整洁，清爽大气",word:["亚克力发光字","清晰明亮"],font:["简洁大气字体"]};
+  if(/服装|美容|美甲|美妆/.test(i)) return {color:["白色","米色","浅粉","浅灰"],shape:"简约高级，温柔耐看",word:["背光字","柔和发光"],font:["简约高级字体"]};
+  if(/教育|培训|托管|学校/.test(i)) return {color:["浅蓝","浅绿","米白","灰色"],shape:"稳重专业、亲和力强",word:["不锈钢背光字","柔和发光"],font:["稳重清晰字体"]};
+  if(/网咖|娱乐|台球|酒吧/.test(i)) return {color:["黑色","深灰","深蓝"],shape:"时尚潮流、夜间醒目",word:["炫彩发光字","亚克力发光字"],font:["潮流时尚字体"]};
+  if(/五金|建材|服务|维修/.test(i)) return {color:["灰色","银色","白色"],shape:"实用耐用、简洁大方",word:["高亮亚克力发光字"],font:["简洁实用字体"]};
+  if(/美发|养生馆|spa/.test(i)) return {color:["咖啡色","深灰","香槟色"],shape:"高级有质感",word:["不锈钢精工背光字"],font:["精致高级字体"]};
+  return {color:["白色","浅灰"],shape:"简洁平整、干净大气",word:["亚克力高亮发光字"],font:["简洁清晰字体"]};
 }
 
-function make(industry,i){
-  const cfg = getConfig(industry);
-  const types = [
+function makePrompt(industry,i,mode){
+  const cfg=getConfig(industry);
+  const types=[
     "主营品类+清晰醒目标语","特色品类+简洁易记标语","招牌品类+直观醒目标语",
     "核心品类+简洁大气标语","爆款品类+清晰易懂标语","主营项目+简洁吸睛标语",
     "特色项目+清晰直观标语","招牌项目+简洁明了标语","核心项目+清晰吸睛标语",
@@ -81,44 +64,34 @@ function make(industry,i){
     "主营产品+简洁明了标语","特色产品+清晰吸睛标语","招牌产品+简洁醒目标语",
     "核心产品+清晰易懂标语","爆款产品+简洁大气标语"
   ];
-  return "白天自然光，门头正立面，完整展示，正面平视视角，无透视畸变，无遮挡，铝塑板底板+发光字门头，造型简洁不复杂、平整大气、性价比高，"+industry+"店铺门头，"+cfg.color+"，"+cfg.shape+"，优质铝塑板、铝塑板饰面、不锈钢包边、亚克力发光字、不锈钢背光字、结构胶固定、简单造型不花哨，"+cfg.word+"，品牌店名+"+types[i]+"，"+cfg.font+"，日间发光字高亮均匀，门头整体干净整洁、辨识度高，8K高清，商业写实效果图，细节丰富，色彩自然，可直接施工参考";
+  const time = mode==="day"?"白天自然光":"夜晚霓虹灯光，LED背光";
+  return `${time}，门头正立面完整展示，平视无遮挡，铝塑板底板+发光字门头，${cfg.shape}，${industry}店铺门头，铝塑板颜色：${random(cfg.color)}，发光字：${random(cfg.word)}，字体：${random(cfg.font)}，品牌店名+${types[i]}，8K高清，商业写实效果图，细节丰富，可直接施工参考`;
 }
 
 function copyOne(t,btn){
   navigator.clipboard.writeText(t).then(()=>{
-    btn.classList.add("done");
-    btn.innerText = "已复制";
+    btn.classList.add("done"); btn.innerText="已复制";
+    setTimeout(()=>{btn.classList.remove("done");btn.innerText="复制";},2000);
   });
 }
 
 function copyAll(){
-  navigator.clipboard.writeText(texts.join("\n\n")).then(()=>{
-    alert("✅ 已复制全部20组");
-  });
+  navigator.clipboard.writeText(texts.join("\n\n")).then(()=>{alert("✅ 已复制全部20组");});
 }
 
 function run(){
-  const val = document.getElementById("industry").value.trim();
-  if(!val){alert("请输入行业类型");return}
-  const btn = document.getElementById("go");
-  btn.disabled = true;
-  btn.innerText = "智能配色中...";
-  
+  const val=document.getElementById("industry").value.trim();
+  const mode=document.getElementById("mode").value;
+  if(!val){alert("请输入行业类型");return;}
+  const btn=document.getElementById("go"); btn.disabled=true; btn.innerText="智能生成中...";
   setTimeout(()=>{
-    let arr = [];
-    for(let i=0;i<20;i++) arr.push(make(val,i));
-    texts.splice(0, texts.length, ...arr);
-    
-    let html = "";
-    arr.forEach((t,i)=>{
-      html += "<div class=\"item\"><div class=\"item-text\">"+(i+1)+". "+t+"</div><button class=\"copy\" onclick=\"copyOne('"+t.replace(/'/g,"\\'")+"',this)\">复制</button></div>";
-    });
-    html += "<button class=\"copy-all\" onclick=\"copyAll()\">📋 一键复制全部20组</button>";
-    document.getElementById("result").innerHTML = html;
-    
-    btn.disabled = false;
-    btn.innerText = "🚀 生成20组提示词";
-  }, 600);
+    let arr=[]; for(let i=0;i<20;i++) arr.push(makePrompt(val,i,mode));
+    texts.splice(0,texts.length,...arr);
+    let html=""; arr.forEach((t,i)=>{html+=`<div class="item"><div class="item-text">${i+1}. ${t}</div><button class="copy" onclick="copyOne('${t.replace(/'/g,"\\'")}',this)">复制</button></div>`;});
+    html+=`<button class="copy-all" onclick="copyAll()">📋 一键复制全部20组</button>`;
+    document.getElementById("result").innerHTML=html;
+    btn.disabled=false; btn.innerText="🚀 生成20组提示词";
+  },600);
 }
 </script>
 </body>
