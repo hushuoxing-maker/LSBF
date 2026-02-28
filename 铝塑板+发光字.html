@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<title>古月·灯箱叠加发光字门头提示词生成器</title>
+<meta charset="UTF-8">
+<title>古月·升级版商业提示词生成器</title>
 <style>
 :root{
   --bg-color:#f7f8fa;
@@ -15,8 +15,9 @@
 }
 body{
   background:var(--bg-color);
-  padding:0 0 60px;
   color:var(--text-color);
+  font-family:"Microsoft YaHei",sans-serif;
+  padding:0 0 60px;
   transition:all .3s;
 }
 .head{
@@ -24,11 +25,14 @@ body{
   color:#fff;
   text-align:center;
   padding:40px 20px;
-  margin-bottom:30px;
+  margin-bottom:20px;
   border-radius:0 0 16px 16px;
   box-shadow:0 4px 16px rgba(0,0,0,.12);
-  transition:all .3s;
+  position:relative;
 }
+.head img.logo{position:absolute;top:20px;left:20px;width:80px;height:auto;border-radius:8px}
+.head img.cover{width:100%;border-radius:16px 16px 0 0;margin-bottom:20px}
+
 .box{
   max-width:800px;
   margin:0 auto 30px;
@@ -39,7 +43,7 @@ body{
   transition:all .3s;
 }
 .label{font-size:15px;color:var(--text-color);margin-bottom:10px}
-.input{
+.input, select{
   width:100%;
   padding:14px 16px;
   border:1px solid #e2e8f0;
@@ -61,7 +65,13 @@ body{
   transition:all .3s;
 }
 .btn:disabled{background:var(--btn-disabled);cursor:not-allowed}
-.result{max-width:800px;margin:0 auto;padding:0 20px;transition:all .3s}
+
+.result{
+  max-width:800px;
+  margin:0 auto;
+  padding:0 20px;
+  transition:all .3s;
+}
 .item{
   background:#fff;
   border-radius:12px;
@@ -79,8 +89,8 @@ body{
 .item-text{flex:1;font-size:14px;line-height:1.6;color:var(--text-color);word-break:break-word;transition:all .3s}
 .copy{padding:6px 10px;background:var(--copy-btn);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;transition:all .3s}
 .copy.done{background:#ccc;color:#666;cursor:default}
-.copy-all{margin:20px auto;display:block;padding:12px 24px;background:var(--copy-btn);color:#fff;border:none;border-radius:10px;font-size:15px;cursor:pointer;transition:all .3s}
-.copy-all:hover{opacity:.85}
+.copy-all, .export-all{margin:20px auto;display:block;padding:12px 24px;background:var(--copy-btn);color:#fff;border:none;border-radius:10px;font-size:15px;cursor:pointer;transition:all .3s}
+.copy-all:hover,.export-all:hover{opacity:.85}
 
 /* 黑夜模式变量 */
 body.dark{
@@ -97,35 +107,37 @@ body.dark{
 <body>
 
 <div class="head">
-  <h1>古月·灯箱叠加发光字门头提示词生成器</h1>
+  <img class="logo" src="logo.png" alt="Logo">
+  <img class="cover" src="cover.jpg" alt="封面图">
+  <h1>古月·升级版商业提示词生成器</h1>
   <p>白天/黑夜效果｜平视无遮挡｜双层结构｜禁止墙面灯箱</p>
 </div>
 
 <div class="box">
   <div class="label">输入行业类型</div>
   <input class="input" id="industry" placeholder="例如：餐饮美食、奶茶、服装、美容">
-  
+
   <div class="label">选择效果图模式</div>
   <select id="sceneMode" class="input">
     <option value="day">白天模式效果图</option>
     <option value="night">黑夜模式效果图</option>
   </select>
-  
+
   <button class="btn" id="go">🚀 生成20组提示词</button>
 </div>
 
 <div class="result" id="result"></div>
 
 <script>
-let texts = [];
+let texts=[];
 
-// 生成提示词
+// 随机模板生成
 function make(industry, mode){
-  const scenes = {
+  const scenes={
     day:"白天自然光，门头正立面，完整展示，正面平视视角，无透视畸变，无遮挡，日间灯箱整体柔和发光，上层发光字高亮立体",
     night:"黑夜暗环境，门头正立面，完整展示，正面平视视角，无透视畸变，无遮挡，夜间灯箱通体高亮发光，上层发光字霓虹效果，光线均匀无暗区，与周边环境形成鲜明对比"
   };
-  const types = [
+  const types=[
     "主营品类+简洁醒目标语","特色品类+清晰易记标语","招牌品类+简洁吸睛标语",
     "核心品类+清晰醒目标语","爆款品类+简洁直观标语","主营项目+清晰吸睛标语",
     "特色项目+简洁明了标语","招牌项目+清晰直观标语","核心项目+简洁吸睛标语",
@@ -134,9 +146,14 @@ function make(industry, mode){
     "主营产品+清晰吸睛标语","特色产品+简洁醒目标语","招牌产品+清晰直观标语",
     "核心产品+简洁吸睛标语","爆款产品+清晰醒目标语"
   ];
-  const scene = scenes[mode] || scenes.day;
-  const type = types[Math.floor(Math.random()*types.length)];
-  return `${scene}，灯箱叠加发光字门头，底层整体软膜灯箱，上层叠加立体发光字，双层结构，层次强、醒目高级，${industry}店铺门头，软膜灯箱、无边框灯箱、UV软膜、亚克力背光字、不锈钢精工字、迷你发光字、金属包边，品牌店名+${type}，现代清晰字体，双层发光效果，8K高清，商业写实效果图，细节丰富，色彩自然，可直接施工参考，禁止墙面出现灯箱`;
+  const scene=scenes[mode]||scenes.day;
+  const type=types[Math.floor(Math.random()*types.length)];
+  const templates=[
+    `${scene}，灯箱叠加发光字门头，底层整体软膜灯箱，上层立体发光字，双层结构，层次强、醒目高级，${industry}店铺门头，品牌店名+${type}，现代清晰字体，双层发光效果，8K高清，商业写实效果图，细节丰富，色彩自然，可直接施工参考，禁止墙面出现灯箱`,
+    `${scene}，${industry}门头设计，软膜灯箱+发光字叠加，${type}，现代清晰字体，商业写实效果图，可直接施工参考`,
+    `${scene}，${industry}品牌门头，底层软膜灯箱，上层发光字立体叠加，${type}，8K高清渲染，商业写实效果图，细节丰富，色彩自然`
+  ];
+  return templates[Math.floor(Math.random()*templates.length)];
 }
 
 // 单条复制
@@ -148,9 +165,7 @@ function copyOne(text, btn){
       btn.textContent="复制";
       btn.classList.remove("done");
     },2000);
-  }).catch(err=>{
-    alert("复制失败："+err);
-  });
+  }).catch(err=>{alert("复制失败："+err);});
 }
 
 // 复制全部
@@ -158,39 +173,45 @@ function copyAll(){
   navigator.clipboard.writeText(texts.join("\n\n")).then(()=>alert("✅ 已复制全部20组"));
 }
 
-// 主函数
+// 导出 CSV
+function exportCSV(){
+  if(!texts.length){alert("请先生成提示词"); return;}
+  const csv=texts.map((t,i)=>`${i+1},"${t}"`).join("\n");
+  const blob=new Blob([csv],{type:"text/csv"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download="提示词.csv"; a.click();
+  URL.revokeObjectURL(url);
+}
+
 function run(){
-  const val = document.getElementById("industry").value.trim();
+  const val=document.getElementById("industry").value.trim();
   if(!val){alert("请输入行业类型"); return;}
-  
-  const mode = document.getElementById("sceneMode").value;
-  
-  // 自动切换页面模式
+  const mode=document.getElementById("sceneMode").value;
   if(mode==="night") document.body.classList.add("dark");
   else document.body.classList.remove("dark");
-  
-  const btn = document.getElementById("go");
-  btn.disabled = true; btn.innerText="生成中...";
+
+  const btn=document.getElementById("go");
+  btn.disabled=true; btn.innerText="生成中...";
   setTimeout(()=>{
     texts=[];
     let html="";
     for(let i=0;i<20;i++){
-      const text = make(val, mode);
+      const text=make(val,mode);
       texts.push(text);
       html+=`<div class='item'>
         <div class='item-text'>${i+1}. ${text}</div>
         <button class='copy' onclick="copyOne(\`${text}\`, this)">复制</button>
       </div>`;
     }
-    html+=`<button class='copy-all' onclick='copyAll()'>📋 一键复制全部20组</button>`;
+    html+=`<button class='copy-all' onclick='copyAll()'>📋 一键复制全部20组</button>
+           <button class='export-all' onclick='exportCSV()'>💾 导出CSV</button>`;
     document.getElementById("result").innerHTML=html;
-    btn.disabled=false;
-    btn.innerText="🚀 生成20组提示词";
+    btn.disabled=false; btn.innerText="🚀 生成20组提示词";
   },500);
 }
 
 document.getElementById("go").onclick=run;
 </script>
-
 </body>
 </html>
